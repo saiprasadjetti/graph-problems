@@ -4,11 +4,15 @@
 
 #include "primsalgrithm.h"
 #include "floydwarshall.h"
+#include "bellmanford.h"
 
 #define INF INT_MAX
 
 using namespace std;
 typedef  pair<int,int> pp;
+
+
+
 
 class disjoint
 {
@@ -73,13 +77,31 @@ bool disjoint::uni(int x,int y)
 int main()
 {
     int v;
-    cin>>v;
-   vector<vector<int>> graph = { { 0, 5, INF, 10 },
-                        { INF, 0, 3, INF },
-                        { INF, INF, 0, 1 },
-                        { INF, INF, INF, 0 } };
-    floydwarshall temp(v,graph);
-    temp.allPairShortestpath();
-    temp.printdist();
+    int e;
+    int src;
+    cin>>v>>e>>src;
+
+    bellmanford graph(v,e,src);
+
+    for(int i=0;i<e;i++)
+    {
+        int src;
+        int dest;
+        int weight;
+        cin>>src>>dest>>weight;
+        edge temp;
+        temp.src=src;
+        temp.dest=dest;
+        temp.weight=weight;
+        graph.addedge(temp);
+    }
+    graph.singleSourceShortestpath();
+    for(int i=0;i<v;i++)
+    {
+        cout<<graph.dist[i]<<endl;
+    }
+
+
+
 }
 
