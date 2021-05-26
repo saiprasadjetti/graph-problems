@@ -3,6 +3,9 @@
 #include <queue>
 
 #include "primsalgrithm.h"
+#include "floydwarshall.h"
+
+#define INF INT_MAX
 
 using namespace std;
 typedef  pair<int,int> pp;
@@ -69,21 +72,14 @@ bool disjoint::uni(int x,int y)
 
 int main()
 {
-
-    //saisiva
-    int V;
-    int E;
-    cin>>V>>E;
-    int u,v,w;
-    primsAlgorithm temp(V,E);
-
-    for(int i=0;i<E;i++)
-    {
-        cin>>u>>v>>w;
-        temp.addedge(u,v,w);
-    }
-    int mincost=temp.prims(1);
-    cout<<mincost<<endl;
-
+    int v;
+    cin>>v;
+   vector<vector<int>> graph = { { 0, 5, INF, 10 },
+                        { INF, 0, 3, INF },
+                        { INF, INF, 0, 1 },
+                        { INF, INF, INF, 0 } };
+    floydwarshall temp(v,graph);
+    temp.allPairShortestpath();
+    temp.printdist();
 }
 
