@@ -1,8 +1,71 @@
 #include <iostream>
 #include <vector>
-#include "Graph.h"
+#include <queue>
+
+#include "primsalgrithm.h"
 
 using namespace std;
+typedef  pair<int,int> pp;
+
+class disjoint
+{
+public:
+    int v;
+    vector<int> parent;
+    vector<int> rank;
+
+public:
+    disjoint(int v)
+    {
+        this->v=v;
+        parent.resize(v);
+        rank.resize(v);
+        for(int i=0;i<v;i++)
+        {
+            parent[i]=i;
+        }
+        for(int i=0;i<v;i++)
+        {
+            rank[i]=0;
+        }
+    }
+    int  find(int x);
+    bool uni(int x,int y);
+
+};
+
+int  disjoint::find(int x)
+{
+    while(parent[x]!=x)
+    {
+        x=parent[x];
+    }
+    return parent[x];
+}
+bool disjoint::uni(int x,int y)
+{
+    int a=find(x);
+    int b=find(y);
+    if(a==b) {
+        return false;
+    }
+    else{
+        if(rank[x]>rank[y])
+        {
+            parent[y]=x;
+        }
+        if(rank[x]<rank[y])
+        {
+            parent[x]=y;
+        }
+        else{
+            parent[y]=x;
+            rank[x]++;
+        };
+
+    }
+}
+
 
 int main()
 {
@@ -11,22 +74,16 @@ int main()
     int V;
     int E;
     cin>>V>>E;
-    Graph temp(V,E);
     int u,v,w;
+    primsAlgorithm temp(V,E);
+
     for(int i=0;i<E;i++)
     {
-        cin>>w>>u>>v;
-        temp.addedge(w,u,v);
+        cin>>u>>v>>w;
+        temp.addedge(u,v,w);
     }
-    temp.parent.resize(V);
-    temp.rank.resize(V);
-    for(int i=0;i<V;i++)
-    {
-        temp.parent[i]=i;
-    }
-    for(int i=0;i<V;i++)
-    {
-        temp.rank[i]=0;
-    }
-    cout<<temp.kruskalsmst()<<endl;
+    int mincost=temp.prims(1);
+    cout<<mincost<<endl;
+
 }
+
